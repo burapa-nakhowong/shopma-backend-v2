@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { registerSchema } from "../validators/auth.schema";
 import * as authService from '../services/auth.service';
 
 export const register = async (
@@ -7,16 +8,19 @@ export const register = async (
     next: NextFunction
 ) => {
     try {
-        const result = await authService.register(req.body);
+
+        const data = registerSchema.parse(req.body);        //validate input
+        const result = await authService.register(data);    //send to service
+
+        //respond to client
         res.status(201).json({
             message: "Register success",
             user: {
                 id: result.id,
                 username: result.username,
-            },
-            
+            }
         });
-        
+
     } catch (err) {
         next(err);
     }
