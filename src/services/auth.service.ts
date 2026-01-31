@@ -4,16 +4,19 @@ import { Prisma } from "@prisma/client";
 import { Response, Request, NextFunction } from 'express';
 import { AppError } from "../errors/AppError";
 
-// service สำหรับสมัครสมาชิก
-export const register = async (data: {
+interface RegisterData {
+    name: string;
     username: string;
     password: string;
-}) => {
+}
 
+// service สำหรับสมัครสมาชิก
+export const register = async (data:RegisterData) => {
     try {
         const hashed = await bcrypt.hash(data.password, 10);
         const user = await prisma.user.create({
             data: {
+                name: data.name,
                 username: data.username,
                 password: hashed,
                 // role: 'ADMIN',
