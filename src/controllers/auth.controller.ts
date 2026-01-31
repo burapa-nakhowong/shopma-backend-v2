@@ -8,9 +8,17 @@ export const register = async (
 ) => {
     try {
         const result = await authService.register(req.body);
-        res.status(201).json(result);
+        res.status(201).json({
+            message: "Register success",
+            user: {
+                id: result.id,
+                username: result.username,
+            },
+            
+        });
+        
     } catch (err) {
-        next(err); 
+        next(err);
     }
 };
 
@@ -21,7 +29,7 @@ export const login = async (
 ) => {
     try {
 
-        
+
         // const result = await authService.login(req.body);
         res.json('login');
     } catch (err) {

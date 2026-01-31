@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import routes from './routes/index.js';
 import prisma from "./config/db.js";
+import { errorHandler } from "./middlewares/error.middleware.js";
 
 export const app = express();
 
@@ -32,3 +33,5 @@ app.get('/api/db', async (req, res) => {
 app.get("/", (_req, res) => {
     res.send("API OK");
 });
+
+app.use(errorHandler);
