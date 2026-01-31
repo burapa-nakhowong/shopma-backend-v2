@@ -1,108 +1,110 @@
 generator client {
-  provider = "prisma-client-js"
+provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+provider = "postgresql"
+url      = env("DATABASE_URL")
 }
 
 model Address {
-  id          Int      @id @default(autoincrement())
-  fullName    String
-  tel         String
-  province    String
-  district    String
-  subDistrict String
-  postalCode  String
-  detail      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime
-  orders      orders[]
+id          Int      @id @default(autoincrement())
+fullName    String
+tel         String
+province    String
+district    String
+subDistrict String
+postalCode  String
+detail      String
+createdAt   DateTime @default(now())
+updatedAt   DateTime @updatedAt
+orders      orders[]
 }
 
 model Category {
-  id              Int               @id @default(autoincrement())
-  name            String            @unique
-  deletedAt       DateTime?
-  ProductCategory ProductCategory[]
+id              Int               @id @default(autoincrement())
+name            String            @unique
+deletedAt       DateTime?
+ProductCategory ProductCategory[]
 }
 
 model OrderItem {
-  id        Int     @id @default(autoincrement())
-  orderId   Int
-  productId Int
-  quantity  Int     @default(1)
-  price     Decimal @db.Decimal(10, 2)
-  orders    orders  @relation(fields: [orderId], references: [id])
-  Product   Product @relation(fields: [productId], references: [id])
+id        Int     @id @default(autoincrement())
+orderId   Int
+productId Int
+quantity  Int     @default(1)
+price     Decimal @db.Decimal(10, 2)
+orders    orders  @relation(fields: [orderId], references: [id])
+Product   Product @relation(fields: [productId], references: [id])
 
-  @@index([orderId])
-  @@index([productId])
+@@index([orderId])
+@@index([productId])
 }
 
 model Payment {
-  id        Int      @id @default(autoincrement())
-  orderId   Int
-  slipUrl   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  orders    orders   @relation(fields: [orderId], references: [id])
+id        Int      @id @default(autoincrement())
+orderId   Int
+slipUrl   String?
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+orders    orders   @relation(fields: [orderId], references: [id])
 
-  @@index([orderId])
+@@index([orderId])
 }
 
 model Product {
-  id              Int               @id @default(autoincrement())
-  name            String
-  price           Decimal           @db.Decimal(10, 2)
-  stock           Int               @default(0)
-  status          ProductStatus     @default(ACTIVE)
-  createdAt       DateTime          @default(now())
-  deletedAt       DateTime?
-  image           String?
-  OrderItem       OrderItem[]
-  ProductCategory ProductCategory[]
+id              Int               @id @default(autoincrement())
+name            String
+price           Decimal           @db.Decimal(10, 2)
+stock           Int               @default(0)
+status          ProductStatus     @default(ACTIVE)
+createdAt       DateTime          @default(now())
+updatedAt       DateTime          @updatedAt
+deletedAt       DateTime?
+image           String?
+OrderItem       OrderItem[]
+ProductCategory ProductCategory[]
 }
 
 model ProductCategory {
-  productId  Int
-  categoryId Int
-  Category   Category @relation(fields: [categoryId], references: [id])
-  Product    Product  @relation(fields: [productId], references: [id])
+productId  Int
+categoryId Int
+Category   Category @relation(fields: [categoryId], references: [id])
+Product    Product  @relation(fields: [productId], references: [id])
 
-  @@id([productId, categoryId])
-  @@index([categoryId])
+@@id([productId, categoryId])
+@@index([categoryId])
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  username  String    @unique
-  password  String
-  name      String?
-  role      Role      @default(CUSTOMER)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime
-  deletedAt DateTime?
-  orders    orders[]
+id        Int       @id @default(autoincrement())
+username  String    @unique
+password  String
+name      String?
+role      Role      @default(CUSTOMER)
+createdAt DateTime  @default(now())
+updatedAt DateTime  @updatedAt
+deletedAt DateTime?
+orders    orders[]
 }
 
 model orders {
-  id             Int         @id @default(autoincrement())
-  userId         Int
-  total          Decimal     @db.Decimal(10, 2)
-  status         OrderStatus @default(pending)
-  trackingNumber String?
-  createdAt      DateTime    @default(now())
-  deletedAt      DateTime?
-  addressId      Int?
-  OrderItem      OrderItem[]
-  Payment        Payment[]
-  Address        Address?    @relation(fields: [addressId], references: [id])
-  User           User        @relation(fields: [userId], references: [id])
+id             Int         @id @default(autoincrement())
+userId         Int
+total          Decimal     @db.Decimal(10, 2)
+status         OrderStatus @default(pending)
+trackingNumber String?
+createdAt      DateTime    @default(now())
+updatedAt      DateTime    @updatedAt
+deletedAt      DateTime?
+addressId      Int?
+OrderItem      OrderItem[]
+Payment        Payment[]
+Address        Address?    @relation(fields: [addressId], references: [id])
+User           User        @relation(fields: [userId], references: [id])
 
-  @@index([createdAt])
-  @@index([userId, status])
+@@index([createdAt])
+@@index([userId, status])
 }
 
 enum OrderStatus {
@@ -117,11 +119,11 @@ enum OrderStatus {
 }
 
 enum ProductStatus {
-  ACTIVE
-  INACTIVE
+ACTIVE
+INACTIVE
 }
 
 enum Role {
-  ADMIN
-  CUSTOMER
+ADMIN
+CUSTOMER
 }
