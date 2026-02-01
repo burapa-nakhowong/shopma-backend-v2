@@ -12,14 +12,14 @@ app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 
-app.use('/api', routes);
+app.use(routes);
 
 app.get("/", (_req, res) => {
     res.json({ status: "ok" });
 });
 
 // test
-app.get('/db', async (req, res) => {
+app.get('/api/db', async (req, res) => {
     try {
         // query เช็คการเชื่อมต่อ
         await prisma.$queryRaw`SELECT 1`;
