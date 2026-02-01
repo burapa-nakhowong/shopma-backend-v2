@@ -1,3 +1,5 @@
+หมายเหตุ: โปรเจกต์นี้อยู่ในระหว่างการพัฒนาและปรับปรุงโครงสร้าง (v2 Refactor) 
+
 # Shopma Backend V2 
 
 Shopma Backend v2 คือระบบ RESTful API สำหรับแพลตฟอร์ม Shopma 
