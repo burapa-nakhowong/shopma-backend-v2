@@ -1,5 +1,5 @@
 
-import * as bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcrypt';
 import prisma from '../../config/db';
 import { Prisma } from "@prisma/client";
 import { AppError } from "../../errors/AppError";
@@ -39,10 +39,18 @@ export const register = async (data: RegisterInput) => {
 
 // service สำหรับLognin
 export const login = async (data: LoginInput) => {
-    const user = await findUserByUsername(data.username);
+
+    console.time("find user by username");
+    const user = await findUserByUsername(data.username);  
     if (!user) throw new AppError("User not found", 404);
-    const isMatch = await bcrypt.compare(data.password, user.password);
+    console.timeEnd("find user by username");
+    console.time("bcrypt.compare");
+    const isMatch = await bcrypt.compare(data.password, user.password); 
     if (!isMatch) throw new AppError("Invalid credentials", 401);
+    console.timeEnd("bcrypt.compare");
+
+    //ประมาณ 700 ms
+
     return user;
 };
 

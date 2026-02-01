@@ -3,7 +3,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { prisma } from "../mocks/prisma";
 import { AppError } from "../../errors/AppError";
 import { Prisma } from "@prisma/client";
-import * as bcrypt from "bcryptjs";
+import * as bcrypt from "bcrypt";
+// import bcrypt from 'bcrypt'
 import * as authService from "../../services/auth/auth.service";
 
 
@@ -11,8 +12,8 @@ vi.mock("../../config/db", () => ({
     default: prisma,
 }));
 
-vi.mock("bcryptjs", async (importOriginal) => {
-    const actual = await importOriginal<typeof import("bcryptjs")>();
+vi.mock("bcrypt", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("bcrypt")>();
     return {
         ...actual,
         compare: vi.fn(),
