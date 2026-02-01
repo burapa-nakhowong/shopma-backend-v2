@@ -8,10 +8,10 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-// ⭐ CORS ต้องมาก่อน routes
+//  CORS ต้องมาก่อน routes
 app.use(
     cors({
-        origin: "http://localhost:3000",
+        origin: process.env.CLIENT_URL,
         credentials: true,
     })
 );

@@ -40,7 +40,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         res.cookie("access_token", accessToken, {
             httpOnly: true,                                 // JS อ่านไม่ได้ (กัน XSS)
             secure: process.env.NODE_ENV === "production",  // https เท่านั้น
-            sameSite: "lax",                                // ป้องกัน CSRF พื้นฐาน
+            sameSite: "none",                                // ป้องกัน CSRF พื้นฐาน
             maxAge: 60 * 60 * 1000,                         // 1 ชั่วโมง
         });
 
