@@ -4,7 +4,7 @@ import prisma from '../../config/db';
 import { Prisma } from "@prisma/client";
 import { AppError } from "../../errors/AppError";
 import { RegisterInput, LoginInput } from "../../validators/auth.schema";
-import{ findUserByUsername } from '../auth/auth.repository';
+import { findUserByUsername } from '../auth/auth.repository';
 // service สำหรับสมัครสมาชิก 
 export const register = async (data: RegisterInput) => {
     try {
@@ -38,18 +38,17 @@ export const register = async (data: RegisterInput) => {
 
 // service สำหรับLognin
 export const login = async (data: LoginInput) => {
-    try {
-        const user = await findUserByUsername(data.username);
-        console.log(user);
 
-        // const isMatch = await bcrypt.compare(data.password, user.password);
-        // if (!isMatch) {
-        //     throw new AppError("Invalid credentials", 401);
-        // }
-        return user;
-    } catch (error) {
+    const user = await findUserByUsername(data.username);
+    if (!user) throw new AppError("User not found", 404);
+    
+    // const isMatch = await bcrypt.compare(data.password, user.password);
+    // if (!isMatch) {
+    //     throw new AppError("Invalid credentials", 401);
+    // }
 
-    }
+    return user;
+
 
 
 };
