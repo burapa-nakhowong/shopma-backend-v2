@@ -42,3 +42,5 @@ app.get("/", (_req, res) => {
 });
 
 app.use(errorHandler);
+
+export default app;
