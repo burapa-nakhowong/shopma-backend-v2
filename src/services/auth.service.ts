@@ -1,18 +1,13 @@
 import * as bcrypt from 'bcryptjs';
 import prisma from '../config/db';
 import { Prisma } from "@prisma/client";
-import { Response, Request, NextFunction } from 'express';
 import { AppError } from "../errors/AppError";
-
-interface RegisterData {
-    name: string;
-    username: string;
-    password: string;
-}
+import { RegisterInput } from "../validators/auth.schema";
 
 // service สำหรับสมัครสมาชิก
-export const register = async (data:RegisterData) => {
+export const register = async (data: RegisterInput) => {
     try {
+
         const hashed = await bcrypt.hash(data.password, 10);
         const user = await prisma.user.create({
             data: {
@@ -21,8 +16,12 @@ export const register = async (data:RegisterData) => {
                 password: hashed,
                 // role: 'ADMIN',
             },
+            select: {
+                id: true,
+                name: true,
+                username: true,
+            },
         });
-
         return user;
     } catch (err) {
         if (

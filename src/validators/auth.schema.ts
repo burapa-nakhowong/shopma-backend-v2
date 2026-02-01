@@ -10,7 +10,7 @@ export const registerSchema = z.object({
         .min(6, "Username must be at least 6 characters"),
     password: z
         .string()
-        .min(8, "Password must be at least 8 characters"),
+        .min(8, "Password must be at least 8 characters")
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
