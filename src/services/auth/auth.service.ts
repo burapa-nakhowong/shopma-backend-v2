@@ -39,16 +39,10 @@ export const register = async (data: RegisterInput) => {
 // service สำหรับLognin
 export const login = async (data: LoginInput) => {
 
-    const user = await findUserByUsername(data.username);
+    const user = await findUserByUsername(data.username);  
     if (!user) throw new AppError("User not found", 404);
-    
-    // const isMatch = await bcrypt.compare(data.password, user.password);
-    // if (!isMatch) {
-    //     throw new AppError("Invalid credentials", 401);
-    // }
+    const isMatch = await bcrypt.compare(data.password, user.password);
+    if (!isMatch) throw new AppError("Invalid credentials", 401);
 
     return user;
-
-
-
 };

@@ -1,18 +1,23 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { prisma } from "../mocks/prisma";
-import * as authService from "../../services/auth/auth.service";
 import { AppError } from "../../errors/AppError";
 import { Prisma } from "@prisma/client";
+import * as bcrypt from "bcryptjs";
+import * as authService from "../../services/auth/auth.service";
 
-
-vi.mock("bcryptjs", () => ({
-    hash: vi.fn(),
-}));
 
 vi.mock("../../config/db", () => ({
     default: prisma,
 }));
+
+vi.mock("bcryptjs", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("bcryptjs")>();
+    return {
+        ...actual,
+        compare: vi.fn(),
+    };
+});
 
 
 describe("Auth Service - register", () => {
@@ -20,9 +25,10 @@ describe("Auth Service - register", () => {
     beforeEach(() => {
         prisma.user.create.mockReset();
         prisma.user.findUnique.mockReset();
+        vi.clearAllMocks();
     });
 
-    it("สมัครสมาชิกสำเร็จ", async () => {
+    it("register กสำเร็จ", async () => {
         //ข้อมูลที่คาดว่าจะถูกส่งกลับมาเมื่อสร้าง user สำเร็จ
 
         prisma.user.create.mockResolvedValue({
@@ -62,7 +68,6 @@ describe("Auth Service - register", () => {
 
 
     it("Login สำเร็จ", async () => {
-
         prisma.user.findUnique.mockResolvedValue({
             id: 1,
             username: "shopma001",
@@ -70,13 +75,54 @@ describe("Auth Service - register", () => {
             role: "CUSTOMER"
         });
 
+        //จำลองการเปรียบเทียบรหัสผ่านที่ถูกต้อง
+        vi.mocked(bcrypt.compare).mockImplementation(async () => true);
+
         //ข้อมูลสำหรับเข้าสู่ระบบ
         const user = await authService.login({
             username: "shopma001",
             password: "123456789",
         });
 
+        //ผลลัพธ์ที่คาดหวัง
         expect(user.username).toBe("shopma001");
+    });
+
+
+    it("user ไม่พบ", async () => {
+        prisma.user.findUnique.mockResolvedValue(null);
+        await expect(
+            authService.login({
+                username: "shopma000",
+                password: "hashed_password",
+            })
+        ).rejects.toMatchObject({
+            message: "User not found",
+            statusCode: 404,
+        });
+    });
+
+    it("password ผิด", async () => {
+        prisma.user.findUnique.mockResolvedValue({
+            id: 1,
+            username: "shopma001",
+            password: "hashed_password",
+            role: "CUSTOMER",
+        });
+
+        // จำลองการเปรียบเทียบรหัสผ่านที่ไม่ถูกต้อง
+        vi.mocked(bcrypt.compare).mockImplementation(async () => false);
+
+        // error ที่คาดหวัง 
+        await expect(
+            authService.login({
+                username: "shopma001",
+                password: "wrongpassword",
+            })
+        ).rejects.toMatchObject({
+            message: "Invalid credentials",
+            statusCode: 401,
+        });
     });
 
 });
