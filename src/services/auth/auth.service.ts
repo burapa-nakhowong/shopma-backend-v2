@@ -3,8 +3,8 @@ import * as bcrypt from 'bcrypt';
 import prisma from '../../config/db';
 import { Prisma } from "@prisma/client";
 import { AppError } from "../../errors/AppError";
-import { RegisterInput, LoginInput } from "../../validators/auth.schema";
-import { findUserByUsername } from '../auth/auth.repository';
+import { RegisterInput, LoginInput } from "../../validators/auth.schema.js";
+import { findUserByUsername } from '../auth/auth.repository.js';
 import jwt from "jsonwebtoken";
 
 // service สำหรับสมัครสมาชิก 

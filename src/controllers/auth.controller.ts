@@ -1,7 +1,7 @@
 import { id } from 'zod/v4/locales';
 import { Request, Response, NextFunction } from 'express';
-import { RegisterInput, registerSchema } from "../validators/auth.schema";
-import * as authService from '../services/auth/auth.service';
+import { RegisterInput, registerSchema } from "../validators/auth.schema.js";
+import * as authService from '../services/auth/auth.service.js';
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 
