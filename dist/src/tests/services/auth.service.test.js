@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { prisma } from "../mocks/prisma";
-import { AppError } from "../../errors/AppError";
+import { AppError } from "../../errors/AppError.js";
 import { Prisma } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 // import bcrypt from 'bcrypt'
