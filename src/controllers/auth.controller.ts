@@ -4,9 +4,6 @@ import { RegisterInput, registerSchema } from "../validators/auth.schema";
 import * as authService from '../services/auth/auth.service';
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-const r = {
-
-}
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
