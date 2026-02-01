@@ -6,7 +6,6 @@ import { AppError } from "../../errors/AppError";
 import { RegisterInput, LoginInput } from "../../validators/auth.schema";
 import { findUserByUsername } from '../auth/auth.repository';
 import jwt from "jsonwebtoken";
-import type { JwtPayload } from "jsonwebtoken";
 
 // service สำหรับสมัครสมาชิก 
 export const register = async (data: RegisterInput) => {
@@ -37,7 +36,6 @@ export const register = async (data: RegisterInput) => {
         throw err;
     }
 };
-
 
 // service สำหรับLognin
 export const login = async (data: LoginInput) => {

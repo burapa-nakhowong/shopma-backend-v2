@@ -65,7 +65,16 @@ describe("Auth Service - register", () => {
             })
         ).rejects.toBeInstanceOf(AppError);
     });
+});
 
+
+describe("Auth Service - Login", () => {
+
+    beforeEach(() => {
+        prisma.user.create.mockReset();
+        prisma.user.findUnique.mockReset();
+        vi.clearAllMocks();
+    });
 
     it("Login สำเร็จ", async () => {
         prisma.user.findUnique.mockResolvedValue({
@@ -85,7 +94,12 @@ describe("Auth Service - register", () => {
         });
 
         //ผลลัพธ์ที่คาดหวัง
-        expect(user.username).toBe("shopma001");
+        // expect(user.username).toBe("shopma001");
+        expect(user).toMatchObject({
+            id: 1,
+            username: "shopma001",
+            role: "CUSTOMER",
+        });
     });
 
 
@@ -109,11 +123,7 @@ describe("Auth Service - register", () => {
             password: "hashed_password",
             role: "CUSTOMER",
         });
-
-        // จำลองการเปรียบเทียบรหัสผ่านที่ไม่ถูกต้อง
         vi.mocked(bcrypt.compare).mockImplementation(async () => false);
-
-        // error ที่คาดหวัง 
         await expect(
             authService.login({
                 username: "shopma001",
@@ -124,5 +134,4 @@ describe("Auth Service - register", () => {
             statusCode: 401,
         });
     });
-
 });
