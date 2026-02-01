@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import prisma from '../../config/db';
+import prisma from '../../config/db.js';
 import { Prisma } from "@prisma/client";
 import { AppError } from "../../errors/AppError";
 import { findUserByUsername } from '../auth/auth.repository';

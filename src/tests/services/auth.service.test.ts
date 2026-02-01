@@ -8,7 +8,7 @@ import * as bcrypt from "bcrypt";
 import * as authService from "../../services/auth/auth.service";
 
 
-vi.mock("../../config/db", () => ({
+vi.mock("../../config/db.js", () => ({
     default: prisma,
 }));
 
