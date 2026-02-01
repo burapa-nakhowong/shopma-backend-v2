@@ -4,10 +4,13 @@ import routes from './routes/index.js';
 import prisma from "./config/db.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 
+import {requestLogger} from "./middlewares/performance.middleware.js";
+
 export const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(requestLogger);
 
 app.use('/api', routes);
 

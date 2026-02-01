@@ -67,9 +67,8 @@ describe("Auth Service - register", () => {
     });
 });
 
-
 describe("Auth Service - Login", () => {
-
+    
     beforeEach(() => {
         prisma.user.create.mockReset();
         prisma.user.findUnique.mockReset();
