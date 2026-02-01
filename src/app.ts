@@ -4,14 +4,23 @@ import routes from "./routes/index.js";
 import prisma from "./config/db.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import { requestLogger } from "./middlewares/performance.middleware.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(cors());
+// ⭐ CORS ต้องมาก่อน routes
+app.use(
+    cors({
+        origin: "http://localhost:3000",
+        credentials: true,
+    })
+);
+
 app.use(express.json());
+app.use(cookieParser());      // ⭐ ต้องอยู่ก่อน auth middleware
 app.use(requestLogger);
 
-// ⭐ สำคัญมาก
+// ⭐ routes
 app.use(routes);
 
 app.get("/", (_req, res) => {

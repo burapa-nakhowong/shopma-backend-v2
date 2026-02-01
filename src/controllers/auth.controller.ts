@@ -2,8 +2,18 @@ import { id } from 'zod/v4/locales';
 import { Request, Response, NextFunction } from 'express';
 import { RegisterInput, registerSchema } from "../validators/auth.schema.js";
 import * as authService from '../services/auth/auth.service.js';
-import jwt, { JwtPayload } from "jsonwebtoken";
 
+
+export const me = async (req: Request, res: Response, next: NextFunction) => {
+
+    if (!req.user) {
+        return res.status(401).json({ message: "Unauthorizedsss" })
+    }
+    res.status(200).json({
+        id: req.user.id,
+        role: req.user.role,
+    })
+};
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
