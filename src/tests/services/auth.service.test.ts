@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { prisma } from "../mocks/prisma";
-import * as authService from "../../services/auth.service";
+import * as authService from "../../services/auth/auth.service";
 import { AppError } from "../../errors/AppError";
 import { Prisma } from "@prisma/client";
 

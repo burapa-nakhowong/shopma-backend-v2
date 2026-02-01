@@ -1,13 +1,13 @@
-import * as bcrypt from 'bcryptjs';
-import prisma from '../config/db';
-import { Prisma } from "@prisma/client";
-import { AppError } from "../errors/AppError";
-import { RegisterInput } from "../validators/auth.schema";
 
-// service สำหรับสมัครสมาชิก
+import * as bcrypt from 'bcryptjs';
+import prisma from '../../config/db';
+import { Prisma } from "@prisma/client";
+import { AppError } from "../../errors/AppError";
+import { RegisterInput, LoginInput } from "../../validators/auth.schema";
+import{ findUserByUsername } from '../auth/auth.repository';
+// service สำหรับสมัครสมาชิก 
 export const register = async (data: RegisterInput) => {
     try {
-
         const hashed = await bcrypt.hash(data.password, 10);
         const user = await prisma.user.create({
             data: {
@@ -37,10 +37,19 @@ export const register = async (data: RegisterInput) => {
 
 
 // service สำหรับLognin
-export const login = async (data: {
-    email: string;
-    password: string;
-}) => {
+export const login = async (data: LoginInput) => {
+    try {
+        const user = await findUserByUsername(data.username);
+        console.log(user);
 
-    return {};
+        // const isMatch = await bcrypt.compare(data.password, user.password);
+        // if (!isMatch) {
+        //     throw new AppError("Invalid credentials", 401);
+        // }
+        return user;
+    } catch (error) {
+
+    }
+
+
 };

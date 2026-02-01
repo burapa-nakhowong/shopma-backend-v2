@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { RegisterInput, registerSchema } from "../validators/auth.schema";
-import * as authService from '../services/auth.service';
+import * as authService from '../services/auth/auth.service';
 
 export const register = async (
     req: Request,
@@ -32,10 +32,8 @@ export const login = async (
     next: NextFunction
 ) => {
     try {
-
-
-        // const result = await authService.login(req.body);
-        res.json('login');
+        const result = await authService.login(req.body);
+        res.json(result);
     } catch (err) {
         next(err);
     }
