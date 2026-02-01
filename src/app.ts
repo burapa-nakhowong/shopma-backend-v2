@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(requestLogger);
 
 // ⭐ สำคัญมาก
-app.use('/api',routes);
+app.use(routes);
 
 app.get("/", (_req, res) => {
     res.json({ status: "ok" });
