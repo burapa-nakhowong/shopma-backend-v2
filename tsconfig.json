@@ -13,5 +13,5 @@
     "typeRoots": ["./node_modules/@types"]
   },
   "include": ["src", "api"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["src/server.ts"]
 }
