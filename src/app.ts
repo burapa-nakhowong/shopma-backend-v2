@@ -4,7 +4,7 @@ import routes from './routes/index.js';
 import prisma from "./config/db.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 
-import {requestLogger} from "./middlewares/performance.middleware.js";
+import { requestLogger } from "./middlewares/performance.middleware.js";
 
 export const app = express();
 
@@ -13,6 +13,10 @@ app.use(express.json());
 app.use(requestLogger);
 
 app.use('/api', routes);
+
+app.get("/", (_req, res) => {
+    res.json({ status: "ok" });
+});
 
 // test
 app.get('/api/db', async (req, res) => {
