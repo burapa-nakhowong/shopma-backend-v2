@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Shopma Backend v2 (Express + TypeScript + Prisma)",
   "private": true,
-  "type": "module",
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
