@@ -38,7 +38,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         const accessToken = await authService.generateAccessToken(result.id, result.role);
         res.cookie("access_token", accessToken, {
             httpOnly: true,                                 // JS อ่านไม่ได้ (กัน XSS)
-            secure: `${process.env.NODE_ENV} === "production"`,  // https เท่านั้น
+            secure: process.env.NODE_ENV === "production",  // https เท่านั้น
             sameSite: "none",                                // ป้องกัน CSRF พื้นฐาน
             maxAge: 60 * 60 * 1000,                         // 1 ชั่วโมง
         });
