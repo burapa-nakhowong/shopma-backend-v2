@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { registerSchema, InputSchema } from "../../validators/auth.schema";
+import { registerSchema, InputSchema } from "../../validators/auth.schema.js";
 
 describe("registerSchema", () => {
     const point_test = 'Register';

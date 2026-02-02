@@ -13,25 +13,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/burapa-nakhowong/shopma-backend-v2.git"
-  },
-  "keywords": [
-    "express",
-    "typescript",
-    "backend",
-    "prisma"
-  ],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/burapa-nakhowong/shopma-backend-v2/issues"
-  },
-  "homepage": "https://github.com/burapa-nakhowong/shopma-backend-v2#readme",
   "dependencies": {
     "@prisma/client": "^5.22.0",
-    "@types/bcrypt": "^6.0.0",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
@@ -41,6 +24,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^4.17.21",
@@ -49,7 +33,6 @@
     "prisma": "^5.22.0",
     "prisma-erd-generator": "^2.4.2",
     "supertest": "^7.2.2",
-    "ts-node": "^10.9.2",
     "tsx": "^4.7.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
