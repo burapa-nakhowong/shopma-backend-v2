@@ -30,8 +30,9 @@ export const login = async (req, res, next) => {
         const result = await authService.login(req.body);
         const accessToken = await authService.generateAccessToken(result.id, result.role);
         res.cookie("access_token", accessToken, {
+            domain: ".burapha.site",
             httpOnly: true, // JS อ่านไม่ได้ (กัน XSS)
-            secure: true, // https เท่านั้น
+            secure: process.env.NODE_ENV === "production", // https เท่านั้น
             sameSite: "none", // ป้องกัน CSRF พื้นฐาน
             maxAge: 60 * 60 * 1000, // 1 ชั่วโมง
         });

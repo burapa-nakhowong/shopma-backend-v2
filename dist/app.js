@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 //  CORS ต้องมาก่อน routes
 app.use(cors({
-    origin: "https://shopma-frontend-v2.vercel.app",
+    origin: "https://www.burapha.site",
     credentials: true,
 }));
 app.use(express.json());
