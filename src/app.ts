@@ -11,7 +11,7 @@ const app = express();
 //  CORS ต้องมาก่อน routes
 app.use(
     cors({
-        origin: "https://shopma-frontend-v2.vercel.app",
+        origin:[process.env.CLIENT_URL, "http://localhost:3000"],
         credentials: true,
     })
 );
