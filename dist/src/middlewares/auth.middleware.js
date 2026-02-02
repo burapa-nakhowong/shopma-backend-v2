@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { AppError } from "../errors/AppError";
+import { AppError } from "../errors/AppError.js";
 export const authMiddleware = (req, res, next) => {
     const token = req.cookies?.access_token;
     if (!token) {

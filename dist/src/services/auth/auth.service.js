@@ -2,7 +2,7 @@ import * as bcrypt from 'bcrypt';
 import prisma from '../../config/db.js';
 import { Prisma } from "@prisma/client";
 import { AppError } from "../../errors/AppError.js";
-import { findUserByUsername } from '../auth/auth.repository';
+import { findUserByUsername } from '../auth/auth.repository.js';
 import jwt from "jsonwebtoken";
 // service สำหรับสมัครสมาชิก 
 export const register = async (data) => {

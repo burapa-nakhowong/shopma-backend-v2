@@ -1,5 +1,14 @@
-import { registerSchema } from "../validators/auth.schema";
-import * as authService from '../services/auth/auth.service';
+import { registerSchema } from "../validators/auth.schema.js";
+import * as authService from '../services/auth/auth.service.js';
+export const me = async (req, res, next) => {
+    if (!req.user) {
+        return res.status(401).json({ message: "Unauthorizedsss" });
+    }
+    res.status(200).json({
+        id: req.user.id,
+        role: req.user.role,
+    });
+};
 export const register = async (req, res, next) => {
     try {
         const data = registerSchema.parse(req.body); // validate input and type check
@@ -22,8 +31,8 @@ export const login = async (req, res, next) => {
         const accessToken = await authService.generateAccessToken(result.id, result.role);
         res.cookie("access_token", accessToken, {
             httpOnly: true, // JS อ่านไม่ได้ (กัน XSS)
-            secure: process.env.NODE_ENV === "production", // https เท่านั้น
-            sameSite: "lax", // ป้องกัน CSRF พื้นฐาน
+            secure: true, // https เท่านั้น
+            sameSite: "none", // ป้องกัน CSRF พื้นฐาน
             maxAge: 60 * 60 * 1000, // 1 ชั่วโมง
         });
         res.status(200).json({
