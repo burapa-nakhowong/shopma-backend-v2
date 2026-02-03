@@ -4,7 +4,6 @@ import { RegisterInput, registerSchema } from "../validators/auth.schema.js";
 import * as authService from '../services/auth/auth.service.js';
 
 export const me = async (req: Request, res: Response, next: NextFunction) => {
-
     if (!req.user) {
         return res.status(401).json({ message: "Unauthorizedsss" })
     }
@@ -16,7 +15,6 @@ export const me = async (req: Request, res: Response, next: NextFunction) => {
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
-
         const data: RegisterInput = registerSchema.parse(req.body); // validate input and type check
         const result = await authService.register(data);            //send to service
         res.status(201).json({
@@ -38,11 +36,11 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         
         const accessToken = await authService.generateAccessToken(result.id, result.role);
         res.cookie("access_token", accessToken, {
-            domain: ".burapha.site",                        //ทำงานภายใต้ sub domain เช่น burapha.site และ www.burapha.site
+            // domain: ".burapha.site",                        //ทำงานภายใต้ sub domain เช่น burapha.site และ www.burapha.site
             httpOnly: true,                                 // JS อ่านไม่ได้ (กัน XSS)
             secure: process.env.NODE_ENV === "production",  // https เท่านั้น
-            // sameSite: "none",              
-            sameSite: "none",                            // ป้องกัน CSRF พื้นฐาน
+             sameSite: "lax",               //-> local
+            // sameSite: "none",            //--> product                 // ป้องกัน CSRF พื้นฐาน
             maxAge: 60 * 60 * 1000,                         // 1 ชั่วโมง
         });
 
