@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 //  CORS ต้องมาก่อน routes
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
     credentials: true,
 }));
 app.use(express.json());
