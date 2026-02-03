@@ -35,6 +35,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const result = await authService.login(req.body);
+        
         const accessToken = await authService.generateAccessToken(result.id, result.role);
         res.cookie("access_token", accessToken, {
             domain: ".burapha.site",                        //ทำงานภายใต้ sub domain เช่น burapha.site และ www.burapha.site
