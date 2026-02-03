@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 //  CORS ต้องมาก่อน routes
 app.use(cors({
-    origin: "https://www.burapha.site",
+    origin: process.env.CLIENT_URL,
     credentials: true,
 }));
 app.use(express.json());
