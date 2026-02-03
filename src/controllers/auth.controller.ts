@@ -37,7 +37,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         const result = await authService.login(req.body);
         const accessToken = await authService.generateAccessToken(result.id, result.role);
         res.cookie("access_token", accessToken, {
-            domain: ".burapha.site",
+            // domain: ".burapha.site",
             httpOnly: true,                                 // JS อ่านไม่ได้ (กัน XSS)
             secure: process.env.NODE_ENV === "production",  // https เท่านั้น
             sameSite: "none",              
